@@ -1,0 +1,37 @@
+name: Check links
+
+on:
+  schedule:
+    - cron: '17 8 * * 1' # Mondays, about 4:17 AM Toronto time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run tests
+        run: node --test tests/check-links.test.mjs
+
+      - name: Check links
+        run: node scripts/check-links.mjs
+
+      - name: Commit results
+        run: |
+          if git diff --quiet -- data/link-status.json; then
+            echo "No changes to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/link-status.json
+            git commit -m "Update link status"
+            git push
+          fi

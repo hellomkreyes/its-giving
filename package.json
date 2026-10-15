@@ -1,0 +1,11 @@
+{
+  "name": "giving-app",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "check-links": "node scripts/check-links.mjs",
+    "test": "node --test tests/check-links.test.mjs"
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "evergreen",
+    "name": "Evergreen",
+    "note": "Urban greening, based in Toronto. Gives through CanadaHelps.",
+    "url": "https://www.canadahelps.org/en/charities/evergreen"
+  },
+  {
+    "id": "tree-canada",
+    "name": "Tree Canada",
+    "note": "National tree-planting charity.",
+    "url": "https://treecanada.ca/donate/"
+  },
+  {
+    "id": "ducks-unlimited-canada",
+    "name": "Ducks Unlimited Canada",
+    "note": "Wetland restoration for water and wildlife.",
+    "url": "https://www.ducks.ca/how-to-help/donate"
+  },
+  {
+    "id": "environmental-defence",
+    "name": "Environmental Defence",
+    "note": "Toronto-based climate and energy advocacy.",
+    "url": "https://environmentaldefence.ca/donate/"
+  },
+  {
+    "id": "indigenous-climate-action",
+    "name": "Indigenous Climate Action",
+    "note": "Indigenous-led climate and land stewardship.",
+    "url": "https://www.indigenousclimateaction.com/donate"
+  },
+  {
+    "id": "nwac",
+    "name": "Native Women's Association of Canada",
+    "note": "Advocacy and programs for Indigenous women, girls and gender-diverse people.",
+    "url": "https://nwac.ca/donate"
+  }
+]

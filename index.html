@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Give with Intention</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Work out a giving pledge from what you spend on AI, and find nature volunteer roles in Toronto and the GTA.">
+<style>
+  :root {
+    --bg: #fff4f7;
+    --bg-accent: #ffe3ec;
+    --card: #ffffff;
+    --ink: #3a2a35;
+    --muted: #6e5a66;
+    --line: #e9c4d2;
+    --accent: #7a3b8f;
+    --on-accent: #ffffff;
+    --warn-bg: #fff1d6;
+    --warn-ink: #5c3a00;
+    --note-bg: #f6ebfa;
+    --shadow: rgba(122, 59, 143, .12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1d1826;
+      --bg-accent: #2a2136;
+      --card: #272034;
+      --ink: #f3e9f5;
+      --muted: #c7b8cf;
+      --line: #4c4060;
+      --accent: #d9a6ea;
+      --on-accent: #1d1826;
+      --warn-bg: #3b2f14;
+      --warn-ink: #f5dca0;
+      --note-bg: #31263f;
+      --shadow: rgba(0, 0, 0, .4);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1d1826;
+    --bg-accent: #2a2136;
+    --card: #272034;
+    --ink: #f3e9f5;
+    --muted: #c7b8cf;
+    --line: #4c4060;
+    --accent: #d9a6ea;
+    --on-accent: #1d1826;
+    --warn-bg: #3b2f14;
+    --warn-ink: #f5dca0;
+    --note-bg: #31263f;
+    --shadow: rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.5;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--card); padding: 8px 12px; border-radius: 8px; }
+  .skip:focus { left: 8px; z-index: 10; }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 4px; color: var(--accent); }
+  .tagline { margin: 0 0 20px; color: var(--muted); }
+  h2 { font-size: 1.3rem; margin: 0 0 12px; }
+  h3 { font-size: 1.05rem; margin: 0 0 6px; }
+
+  button, select, input, textarea { font: inherit; color: inherit; }
+  .btn, .toggle {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: .92rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn.solid { background: var(--accent); color: var(--on-accent); }
+  .toggle { white-space: nowrap; padding: 6px 12px; font-weight: normal; }
+
+  section.panel {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px var(--shadow);
+  }
+  label, .label { display: block; font-weight: bold; margin: 14px 0 6px; }
+  select, input[type="number"], textarea {
+    width: 100%;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+    padding: 10px 14px;
+  }
+  textarea { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .85rem; resize: vertical; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .hint { color: var(--muted); font-size: .88rem; margin: 6px 0 0; }
+
+  .result {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--note-bg);
+    border: 2px solid var(--line);
+  }
+  .result strong { font-size: 1.4rem; }
+
+  .disclaimer {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--warn-bg);
+    color: var(--warn-ink);
+    border: 2px solid var(--warn-ink);
+    font-size: .92rem;
+  }
+  .disclaimer p { margin: 0 0 6px; }
+  .disclaimer p:last-child { margin: 0; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .row > select { flex: 1 1 200px; width: auto; }
+  .status { min-height: 1.4em; color: var(--muted); font-size: .9rem; margin: 10px 0; }
+
+  .list { display: grid; gap: 14px; margin-top: 12px; padding: 0; list-style: none; }
+  .card {
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    background: var(--bg);
+  }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 10px; }
+  .badge {
+    font-size: .76rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 2px solid var(--line);
+    background: var(--card);
+  }
+  .badge.type { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .badge.warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-ink); }
+  .card p { margin: 0 0 10px; }
+  dl.facts { margin: 0 0 10px; font-size: .92rem; }
+  dl.facts dt { font-weight: bold; margin-top: 6px; }
+  dl.facts dd { margin: 0; color: var(--muted); }
+  details { margin: 8px 0 12px; font-size: .9rem; }
+  summary { cursor: pointer; font-weight: bold; }
+  details ul { margin: 6px 0 0; padding-left: 20px; color: var(--muted); }
+  .group-title { margin: 22px 0 0; font-size: 1.05rem; }
+
+  .cta { margin-top: 18px; padding-top: 16px; border-top: 2px dashed var(--line); }
+  .donate-list { display: grid; gap: 12px; padding: 0; list-style: none; margin: 12px 0 0; }
+  .donate-list li { border: 2px solid var(--line); border-radius: 16px; padding: 14px 16px; background: var(--bg); }
+  .donate-list p { margin: 0 0 8px; color: var(--muted); font-size: .92rem; }
+
+  .error { background: var(--warn-bg); color: var(--warn-ink); border: 2px solid var(--warn-ink); border-radius: 14px; padding: 14px 16px; }
+  .error code { background: var(--card); padding: 1px 6px; border-radius: 6px; }
+
+  footer { font-size: .85rem; color: var(--muted); }
+  footer h2 { font-size: 1.05rem; color: var(--ink); }
+  footer ul { padding-left: 20px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1><span aria-hidden="true">🌿</span> Give with intention</h1>
+      <p class="tagline">Use AI to make your life easier? Give something back to nature.</p>
+    </div>
+    <button class="toggle" id="themeToggle" type="button" aria-pressed="false">Night mode</button>
+  </header>
+
+  <main id="main">
+    <noscript><div class="error">This page needs JavaScript to run.</div></noscript>
+    <div id="dataError" class="error" hidden></div>
+
+    <section class="panel" aria-labelledby="pledge-h">
+      <h2 id="pledge-h">1. Work out your pledge</h2>
+
+      <label for="tool">Which AI tool do you pay for?</label>
+      <select id="tool">
+        <option value="">Choose a tool</option>
+      </select>
+      <div id="toolHelp" aria-live="polite"></div>
+
+      <label for="spend">What you actually pay per month</label>
+      <input id="spend" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 20.00" aria-describedby="spendHint">
+      <p class="hint" id="spendHint">Use any currency. If your employer pays, enter your seat price or leave it blank.</p>
+
+      <label for="pct">Pledge: <output id="pctOut" for="pct">1%</output> of what you spend</label>
+      <input id="pct" type="range" min="0" max="20" step="0.5" value="1" aria-describedby="pctHint">
+      <p class="hint" id="pctHint">1% is only a starting point. There is no right number.</p>
+
+      <div class="result" aria-live="polite" id="result">Enter what you pay to see your pledge.</div>
+
+      <div class="disclaimer" role="note">
+        <p><strong>This isn't an emissions calculator.</strong></p>
+        <p>What you pay for AI is a price. It doesn't measure the environmental impact of your use, and giving doesn't cancel that impact. Think of this as a way to turn good intentions into action, not an offset.</p>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="vol-h">
+      <h2 id="vol-h">2. Volunteer for nature near you</h2>
+      <p class="hint" style="margin-top:0">Toronto and the GTA for now. This is a hand-picked list, not a live feed, so check each page for current dates.</p>
+
+      <div class="row">
+        <button class="btn solid" id="locate" type="button">Use my location</button>
+        <label for="city" class="label" style="margin:0">or pick a city</label>
+        <select id="city"><option value="">Choose a city</option></select>
+      </div>
+      <p class="hint">Your location stays in this browser. It isn't sent or saved anywhere.</p>
+      <div class="status" id="locStatus" role="status"></div>
+
+      <div id="oppSummary" class="hint" aria-live="polite"></div>
+      <ul class="list" id="oppList"></ul>
+      <div class="row" style="margin-top:12px"><button class="btn" id="showMore" type="button" hidden aria-expanded="false"></button></div>
+
+      <h3 class="group-title" id="anywhereTitle" hidden>Do it anywhere</h3>
+      <ul class="list" id="anywhereList"></ul>
+
+      <div class="cta">
+        <h3>Looking for a specific upcoming event?</h3>
+        <p class="hint" style="margin-top:0">This opens a web search in a new tab. We haven't vetted what it finds.</p>
+        <a class="btn" id="eventsSearch" target="_blank" rel="noopener noreferrer" href="#">Search for upcoming events ↗</a>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="give-h">
+      <h2 id="give-h">3. Prefer to give money?</h2>
+      <p class="hint" style="margin-top:0">Charities we've shared before. Confirm each is a registered charity in the <a href="https://www.canada.ca/en/revenue-agency/services/charities-giving/charities/charities-listings.html" target="_blank" rel="noopener noreferrer">CRA charity listings</a> before you give.</p>
+      <ul class="donate-list" id="donateList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <h2>Privacy and honesty</h2>
+    <ul>
+      <li>No accounts, no cookies, no analytics, no tracking. Your numbers and location stay in this browser tab and disappear when you close it.</li>
+      <li>This site is hosted on GitHub Pages. GitHub may keep standard server logs we can't see or control.</li>
+      <li>The prompts in step 1 ask you to paste billing numbers into an AI tool. Never paste card numbers, account IDs or passwords.</li>
+      <li>Volunteer details were read from each organization's own page on the date shown. "Link checked" means the page loaded, not that its content is current.</li>
+      <li>Donation links were found by web search and are only checked for loading.</li>
+      <li>Distances are rough, measured to a central point for each organization or city. Events may be elsewhere.</li>
+    </ul>
+    <p id="lastChecked"></p>
+  </footer>
+</div>
+
+<script>
+const $ = (sel) => document.querySelector(sel);
+const AREA_KM = 50;     // "in your area"
+const MIN_SHOWN = 5;    // pad with the nearest ones when fewer than this are in the area
+
+const CITIES = [
+  { name: 'Toronto', lat: 43.6532, lon: -79.3832 },
+  { name: 'Mississauga', lat: 43.5890, lon: -79.6441 },
+  { name: 'Brampton', lat: 43.7315, lon: -79.7624 },
+  { name: 'Vaughan', lat: 43.8361, lon: -79.4983 },
+  { name: 'Markham', lat: 43.8561, lon: -79.3370 },
+  { name: 'Richmond Hill', lat: 43.8828, lon: -79.4403 },
+  { name: 'Oakville', lat: 43.4675, lon: -79.6877 },
+  { name: 'Burlington', lat: 43.3255, lon: -79.7990 },
+  { name: 'Milton', lat: 43.5183, lon: -79.8774 },
+  { name: 'Pickering', lat: 43.8384, lon: -79.0868 },
+  { name: 'Ajax', lat: 43.8509, lon: -79.0204 },
+  { name: 'Whitby', lat: 43.8975, lon: -78.9429 },
+  { name: 'Oshawa', lat: 43.8971, lon: -78.8658 },
+];
+
+// ---------- AI tool prompts ----------
+const BASE_PROMPT = (extra) => `I want to work out what I actually pay for AI tools each month, so I can decide how much to give to charity.
+
+Rules:
+- Only use numbers I give you. If something is missing or unclear, ask me. Don't guess or estimate.
+- Convert annual or weekly charges to a monthly amount.
+- Keep my currency. Don't convert it.
+- Don't ask for card numbers, account IDs or personal details, and ignore them if I paste them.
+- Reply with a short line-by-line list, then one last line: "Monthly total: <amount> <currency>".
+
+${extra}
+
+Here are my numbers:
+[paste your plan price or usage lines here]`;
+
+const TOOLS = {
+  chatgpt: {
+    label: 'ChatGPT',
+    where: 'Your ChatGPT plan price is in your account billing or subscription settings (menu names change). Add any recurring extras.',
+    extra: 'I use ChatGPT on a subscription. Ask me if you are unsure whether a charge repeats every month.',
+  },
+  claude: {
+    label: 'Claude (app or web)',
+    where: 'Your plan price is in Settings, under billing. Include any extra-usage purchases you made.',
+    extra: 'I use Claude on a plan (Pro, Max, Team or similar). Include extra-usage purchases only if I list them.',
+  },
+  'claude-code': {
+    label: 'Claude Code (CLI)',
+    where: 'If Claude Code is covered by your Claude plan, only the plan price counts. If you bill by token through the API, use your Console cost data. The CLI also has built-in cost commands, such as /cost. Check /help for what your version offers.',
+    extra: 'I use Claude Code. If it is covered by my Claude plan, count only the plan price and do not add token costs on top. If I paste per-session cost output, add the sessions up and tell me what date range or how many sessions the total covers, so I can scale it to a month.',
+  },
+  'claude-api': {
+    label: 'Claude API',
+    where: 'Open the Anthropic Console and look at its usage and cost pages. Paste the cost lines for one full month.',
+    extra: 'I use the Claude API and will paste cost or usage lines from the Anthropic Console. Add up the cost per model, leave out credits and free tier, and tell me the date range the lines cover. Only scale to a month if I confirm.',
+  },
+  grok: {
+    label: 'Grok',
+    where: 'Look at your X Premium or SuperGrok subscription price, or the xAI console if you use the API.',
+    extra: 'I use Grok through a subscription or the xAI API. If I paste API cost lines, add them up and tell me the date range they cover.',
+  },
+  gemini: {
+    label: 'Gemini',
+    where: 'Look at your Google AI plan price, or your Google AI Studio or Cloud billing if you use the API.',
+    extra: 'I use Gemini through a Google plan or through the API. If I paste API cost lines, add them up and tell me the date range they cover.',
+  },
+  copilot: {
+    label: 'Microsoft Copilot',
+    where: 'Look at your personal Copilot plan price. If your employer pays, use the per-seat price or leave it blank.',
+    extra: 'I use Microsoft Copilot through a personal plan or an employer seat. If an employer pays, ask me for the seat price instead of guessing.',
+  },
+  perplexity: {
+    label: 'Perplexity',
+    where: 'Look at your Perplexity plan price, or your API billing page if you use the API.',
+    extra: 'I use Perplexity through a subscription or the API. If I paste API cost lines, add them up and tell me the date range they cover.',
+  },
+  other: {
+    label: 'Another tool',
+    where: 'Find the price on your subscription or billing page. If you pay per use, copy one full month of charges.',
+    extra: 'I use more than one AI tool. I will list each one with its price.',
+  },
+};
+
+// ---------- helpers ----------
+function h(tag, attrs = {}, ...children) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === false || v == null) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'text') el.textContent = v;
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of children.flat(Infinity)) if (c != null) el.append(c);
+  return el;
+}
+const fmtDate = (value) => {
+  if (!value) return '';
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(value)
+    ? new Date(+value.slice(0, 4), +value.slice(5, 7) - 1, +value.slice(8, 10))
+    : new Date(value);
+  return new Intl.DateTimeFormat('en-CA', { dateStyle: 'medium' }).format(d);
+};
+const toRad = (d) => (d * Math.PI) / 180;
+function haversineKm(a, b) {
+  const R = 6371;
+  const dLat = toRad(b.lat - a.lat), dLon = toRad(b.lon - a.lon);
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+
+// ---------- state ----------
+let OPPS = [], DONATIONS = [], LINKS = { results: {} };
+let origin = null;       // { lat, lon, name? } lives only in memory
+let showAll = false;
+
+// ---------- theme (kept in memory only, nothing stored) ----------
+const root = document.documentElement;
+const themeBtn = $('#themeToggle');
+const isDark = () => root.dataset.theme
+  ? root.dataset.theme === 'dark'
+  : matchMedia('(prefers-color-scheme: dark)').matches;
+function syncThemeBtn() {
+  themeBtn.textContent = isDark() ? 'Light mode' : 'Night mode';
+  themeBtn.setAttribute('aria-pressed', String(isDark()));
+}
+themeBtn.addEventListener('click', () => { root.dataset.theme = isDark() ? 'light' : 'dark'; syncThemeBtn(); });
+syncThemeBtn();
+
+// ---------- step 1: pledge ----------
+const toolSel = $('#tool');
+for (const [key, t] of Object.entries(TOOLS)) toolSel.append(h('option', { value: key, text: t.label }));
+
+function renderToolHelp() {
+  const box = $('#toolHelp');
+  box.replaceChildren();
+  const t = TOOLS[toolSel.value];
+  if (!t) return;
+  const prompt = BASE_PROMPT(t.extra);
+  const ta = h('textarea', { id: 'promptText', rows: '14', readonly: true, 'aria-label': `Prompt for ${t.label}` });
+  ta.value = prompt;
+  const copyStatus = h('span', { class: 'hint', role: 'status' });
+  const copyBtn = h('button', { class: 'btn', type: 'button', text: 'Copy prompt' });
+  copyBtn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(prompt); copyStatus.textContent = 'Copied.'; }
+    catch { ta.select(); copyStatus.textContent = 'Press Ctrl+C (or Cmd+C) to copy.'; }
+  });
+  box.append(
+    h('p', { class: 'hint' }, h('strong', { text: 'Where to find your real number: ' }), t.where),
+    h('label', { for: 'promptText', text: 'Prompt to paste into ' + t.label }),
+    ta,
+    h('div', { class: 'row', style: 'margin-top:8px' }, copyBtn, copyStatus),
+    h('p', { class: 'hint', text: 'This tool can\'t see your bill, so the prompt asks it to add up the numbers you paste, not to guess. Don\'t include card numbers or account IDs.' }),
+  );
+}
+toolSel.addEventListener('change', renderToolHelp);
+
+function renderPledge() {
+  const spend = parseFloat($('#spend').value);
+  const pct = parseFloat($('#pct').value);
+  $('#pctOut').textContent = `${pct}%`;
+  const out = $('#result');
+  out.replaceChildren();
+  if (!(spend >= 0) || Number.isNaN(spend)) { out.textContent = 'Enter what you pay to see your pledge.'; return; }
+  const month = (spend * pct) / 100;
+  const money = (n) => n.toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  out.append(
+    'Your pledge: ', h('strong', { text: money(month) }), ' per month, ',
+    h('strong', { text: money(month * 12) }), ' per year ',
+    h('span', { class: 'hint', text: '(same currency you entered)' }),
+  );
+}
+$('#spend').addEventListener('input', renderPledge);
+$('#pct').addEventListener('input', renderPledge);
+
+// ---------- step 2: volunteer ----------
+const citySel = $('#city');
+for (const c of CITIES) citySel.append(h('option', { value: c.name, text: c.name }));
+
+function nearestCityName() {
+  if (!origin) return '';
+  if (origin.name) return origin.name;
+  const best = CITIES.map((c) => ({ c, km: haversineKm(origin, c) })).sort((a, b) => a.km - b.km)[0];
+  return best.km <= 60 ? best.c.name : '';
+}
+function updateEventsLink() {
+  const city = nearestCityName();
+  const q = `environmental volunteer events ${city ? city + ' ' : ''}upcoming`;
+  const a = $('#eventsSearch');
+  a.href = 'https://duckduckgo.com/?q=' + encodeURIComponent(q);
+  a.textContent = city ? `Search for upcoming events near ${city} ↗` : 'Search for upcoming events ↗';
+}
+
+function linkBadge(url) {
+  const s = LINKS.results?.[url];
+  if (!s) return h('span', { class: 'badge', text: 'Link not checked yet' });
+  if (s.status === 'ok') return h('span', { class: 'badge', text: `✓ Link checked ${fmtDate(s.checkedAt)}` });
+  return h('span', { class: 'badge warn', text: '⚠ Unverified link. It may have moved.' });
+}
+
+function oppCard(item) {
+  const { o, km } = item;
+  const typeLabel = { ongoing: 'Ongoing role', directory: 'Directory', anywhere: 'Anywhere' }[o.type] || o.type;
+  const badges = [h('span', { class: 'badge type', text: typeLabel })];
+  if (o.anchor && km != null) {
+    badges.push(h('span', { class: 'badge', text: `≈ ${km < 1 ? '<1' : Math.round(km)} km from ${o.anchor.label}` }));
+    if (km > AREA_KM) badges.push(h('span', { class: 'badge warn', text: 'Outside your area' }));
+  } else if (o.anchor) {
+    badges.push(h('span', { class: 'badge', text: o.anchor.label }));
+  } else {
+    badges.push(h('span', { class: 'badge', text: 'No fixed location' }));
+  }
+  badges.push(linkBadge(o.url));
+
+  const facts = [
+    ['Where', o.scope], ['Time', o.commitment], ['Who can join', o.who], ['How to sign up', o.signup],
+  ].filter(([, v]) => v);
+  const dl = h('dl', { class: 'facts' }, facts.map(([k, v]) => [h('dt', { text: k }), h('dd', { text: v })]));
+
+  return h('li', { class: 'card' },
+    h('h3', { text: o.name }),
+    h('div', { class: 'badges' }, badges),
+    h('p', { text: o.summary }),
+    o.season ? h('p', { class: 'badge warn', style: 'display:block;border-radius:12px', text: o.season }) : null,
+    dl,
+    h('details', {},
+      h('summary', { text: `What we checked on ${fmtDate(o.checked)}` }),
+      h('p', { class: 'hint', style: 'margin-bottom:0', text: 'Confirmed on their page:' }),
+      h('ul', {}, o.confirmed.map((t) => h('li', { text: t }))),
+      o.notConfirmed?.length ? [
+        h('p', { class: 'hint', style: 'margin:8px 0 0', text: "Couldn't confirm:" }),
+        h('ul', {}, o.notConfirmed.map((t) => h('li', { text: t }))),
+      ] : null,
+    ),
+    h('a', { class: 'btn solid', href: o.url, target: '_blank', rel: 'noopener noreferrer', text: 'Go to their page ↗' }),
+  );
+}
+
+function renderVolunteer() {
+  const located = OPPS.filter((o) => o.anchor);
+  const anywhere = OPPS.filter((o) => !o.anchor);
+  const list = $('#oppList'), more = $('#showMore'), sum = $('#oppSummary');
+  list.replaceChildren();
+  let shown, rest = [];
+
+  if (!origin) {
+    shown = located.map((o) => ({ o, km: null }));
+    sum.textContent = 'Pick a location to sort by distance.';
+  } else {
+    const ranked = located.map((o) => ({ o, km: haversineKm(origin, o.anchor) })).sort((a, b) => a.km - b.km);
+    const inArea = ranked.filter((r) => r.km <= AREA_KM).length;
+    const count = Math.max(inArea, Math.min(MIN_SHOWN, ranked.length));
+    shown = ranked.slice(0, count);
+    rest = ranked.slice(count);
+    const padded = count - inArea;
+    sum.textContent = padded > 0
+      ? `${inArea} within ${AREA_KM} km. Added the ${padded} nearest outside your area so you always see at least ${MIN_SHOWN}.`
+      : `${inArea} within ${AREA_KM} km of you.`;
+  }
+
+  shown.forEach((item) => list.append(oppCard(item)));
+  if (showAll) rest.forEach((item) => list.append(oppCard(item)));
+  more.hidden = rest.length === 0;
+  more.setAttribute('aria-expanded', String(showAll));
+  more.textContent = showAll ? 'Show fewer' : `Show ${rest.length} more, farther away`;
+
+  const al = $('#anywhereList');
+  al.replaceChildren(...anywhere.map((o) => oppCard({ o, km: null })));
+  $('#anywhereTitle').hidden = anywhere.length === 0;
+  updateEventsLink();
+}
+
+function setOrigin(o, message) {
+  origin = o; showAll = false;
+  $('#locStatus').textContent = message || '';
+  renderVolunteer();
+}
+citySel.addEventListener('change', () => {
+  const c = CITIES.find((x) => x.name === citySel.value);
+  if (c) setOrigin({ lat: c.lat, lon: c.lon, name: c.name }, `Showing opportunities near ${c.name}.`);
+  else setOrigin(null, '');
+});
+$('#showMore').addEventListener('click', () => { showAll = !showAll; renderVolunteer(); });
+$('#locate').addEventListener('click', () => {
+  if (!('geolocation' in navigator)) { $('#locStatus').textContent = "Your browser can't share a location. Pick a city instead."; return; }
+  $('#locStatus').textContent = 'Asking your browser for your location…';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      citySel.value = '';
+      setOrigin({ lat: pos.coords.latitude, lon: pos.coords.longitude }, 'Using your location. It stays in this tab.');
+    },
+    (err) => {
+      $('#locStatus').textContent = err.code === 1
+        ? "No problem. We didn't get your location. Pick a city instead."
+        : "Couldn't get your location. Pick a city instead.";
+    },
+    { timeout: 10000, maximumAge: 0 },
+  );
+});
+
+// ---------- step 3: donate ----------
+function renderDonations() {
+  $('#donateList').replaceChildren(...DONATIONS.map((d) => h('li', {},
+    h('h3', { text: d.name }),
+    h('p', { text: d.note }),
+    h('div', { class: 'badges' }, linkBadge(d.url)),
+    h('a', { class: 'btn', href: d.url, target: '_blank', rel: 'noopener noreferrer', text: 'Donate ↗' }),
+  )));
+}
+
+// ---------- load ----------
+async function getJson(path, optional) {
+  try {
+    const res = await fetch(path, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    if (optional) return null;
+    throw err;
+  }
+}
+(async function init() {
+  renderPledge();
+  try {
+    [OPPS, DONATIONS] = await Promise.all([getJson('data/opportunities.json'), getJson('data/donations.json')]);
+  } catch (err) {
+    const box = $('#dataError');
+    box.hidden = false;
+    box.append(
+      'Could not load the volunteer data. If you opened this file directly, run ',
+      h('code', { text: 'python3 -m http.server 8080' }),
+      ' in this folder and visit ', h('code', { text: 'http://localhost:8080' }), '.',
+    );
+    return;
+  }
+  LINKS = (await getJson('data/link-status.json', true)) || { results: {} };
+  $('#lastChecked').textContent = LINKS.checkedAt
+    ? `Links last checked ${fmtDate(LINKS.checkedAt)}.`
+    : 'Links have not been checked yet. The weekly link check will fill this in.';
+  renderVolunteer();
+  renderDonations();
+})();
+</script>
+</body>
+</html>
