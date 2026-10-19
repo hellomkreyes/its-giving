@@ -1,4 +1,103 @@
 {
-  "checkedAt": null,
-  "results": {}
+  "checkedAt": "2026-10-19T15:35:55.153Z",
+  "results": {
+    "https://app.betterimpact.com/PublicOrganization/9af5fb81-a568-42ea-a5aa-dc9e8d36952d/Gvi/96aafd0b-dab6-4640-ab96-7c761b8cf503/2": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://cvc.ca/get-involved/volunteer/": {
+      "status": "unverified",
+      "failures": 1,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": null,
+      "note": "HTTP 403"
+    },
+    "https://environmentaldefence.ca/donate/": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://nwac.ca/donate": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 202
+    },
+    "https://ocean.org/pollution-plastics/shoreline-cleanup/": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://treecanada.ca/donate/": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://volunteertoronto.ca/": {
+      "status": "unverified",
+      "failures": 1,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": null,
+      "note": "HTTP 403"
+    },
+    "https://www.canadahelps.org/en/charities/evergreen": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.ducks.ca/how-to-help/donate": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.evergreen.ca/take-action/volunteer/": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.indigenousclimateaction.com/donate": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.toronto.ca/volunteer": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.torontowildlifecentre.com/volunteer/": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    },
+    "https://www.yourleaf.org/volunteer": {
+      "status": "ok",
+      "failures": 0,
+      "checkedAt": "2026-10-19T15:35:55.153Z",
+      "lastOk": "2026-10-19T15:35:55.153Z",
+      "httpStatus": 200
+    }
+  }
 }
